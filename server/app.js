@@ -1,4 +1,4 @@
-const { port } = require('./config');
+const { port } = require('./config/config');
 import express from "express";
 import cors from 'cors';
 import router from './routes/routes';
