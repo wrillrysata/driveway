@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start:dev": " cross-env NODE_ENV=development nodemon --exec babel-node server/app ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "repository": "https://github.com/Ijebusoma/driveway",
   "author": "Vanessa Osuka",
@@ -15,15 +17,29 @@
     "@babel/core": "^7.4.3",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.3",
+    "babel-eslint": "^10.0.1",
     "cross-env": "^5.2.0",
-    "nodemon": "^1.18.11"
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-config-wesbos": "^0.0.19",
+    "eslint-plugin-html": "^5.0.3",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "nodemon": "^1.18.11",
+    "prettier": "^1.17.0"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
+    "eslint-plugin-jsdoc": "^4.8.3",
     "express": "^4.16.4",
     "fs": "^0.0.1-security",
+    "global": "^4.3.2",
     "path": "^0.12.7",
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",

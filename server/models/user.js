@@ -2,40 +2,42 @@ import bcrypt from 'bcrypt';
 
 export default (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'User', {
+    'User',
+    {
       username: {
         type: DataTypes.STRING,
         unique: true,
-        allowNull: false
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
         validate: {
-          isEmail: true
-        }
+          isEmail: true,
+        },
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
-      bio:{
-        type:DataTypes.STRING,
-        allowNull:false,
+      bio: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
-      location:{
-        type:DataTypes.STRING,
-        allowNull:false
-      }
-
-  }, {});
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {}
+  );
 
   {
-    hooks: {
-      beforeCreate: (user) => {
+    {
+      user => {
         user.password = bcrypt.hashSync(user.password, 10);
-      }
+      };
     }
   }
 
