@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
@@ -43,12 +44,14 @@
     "express": "^4.16.4",
     "fs": "^0.0.1-security",
     "global": "^4.3.2",
+    "lodash": "^4.17.11",
     "mocha": "^6.1.4",
     "path": "^0.12.7",
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
     "request": "^2.88.0",
     "sequelize": "^5.7.5",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.4.0",
+    "validator": "^10.11.0"
   }
 }
