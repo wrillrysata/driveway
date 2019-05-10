@@ -25,7 +25,7 @@ const user2 = {
 };
 
 describe('User API test', () => {
-  describe('# Create user', () => {
+  describe.only('# Create user', () => {
     it('Should create a user', done => {
       request
         .post(signupUrl)
@@ -44,7 +44,7 @@ describe('User API test', () => {
         .send(user1)
         .end((error, response) => {
           expect(response.statusCode).to.equal(409);
-          expect(response.body).to.be('object');
+          expect(response.body).to.be.an('object');
           expect(response.body.errors.title).to.equal('Conflict');
           expect(response.body.errors.detail).to.equal(
             'Username or Email already exist, please login'
