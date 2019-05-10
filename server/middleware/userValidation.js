@@ -30,3 +30,21 @@ export const verifyUserSignUp = (req, res, next) => {
   }
   return res.status(400).json({ errors });
 };
+
+export const verifyUserSignin = (req, res, next) => {
+  const { username, password } = req.body;
+  const errors = {};
+  if (!username) {
+    errors.username = 'Please provide a username or email';
+  } else if (username && validator.isEmpty(username.trim())) {
+    errors.username = 'Username or email cannot be empty';
+  } else if (!password) {
+    errors.password = 'Password is required';
+  }
+  if (isEmpty(errors)) {
+    return next();
+  }
+  return res.status(400).json({
+    errors,
+  });
+};
