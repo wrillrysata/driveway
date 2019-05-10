@@ -25,7 +25,7 @@ const user2 = {
 };
 
 describe('User API test', () => {
-  describe.only('# Create user', () => {
+  describe('# Create user', () => {
     it('Should create a user', done => {
       request
         .post(signupUrl)
@@ -191,47 +191,48 @@ describe('User API test', () => {
       });
     });
   });
-});
-describe('# Sign in user', () => {
-  before(done => {
-    request
-      .post(signupUrl)
-      .send(user2)
-      .end((error, response) => {
-        expect(response.statusCode).to.equal(201);
-        done();
-      });
-  });
-  it('Should sign in user', done => {
-    request
-      .post(signinUrl)
-      .send({
-        username: 'Paystack',
-        password: '1234567890',
-      })
-      .end((error, response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.body).to.be.an('object');
-        expect(response.body.data).to.have.property('token');
-        expect(response.body.data.token).to.be.a('string');
-        done();
-      });
-  });
-  it('Should not sign in user with the wrong password', done => {
-    request
-      .post(signinUrl)
-      .send({
-        username: 'paystack@test.com',
-        password: '12345',
-      })
-      .end((error, response) => {
-        expect(response.statusCode).to.equal(404);
-        expect(response.body).to.be.an('object');
-        expect(response.body.errors.title).to.equal('Not Found');
-        expect(response.body.errors.detail).to.equal(
-          'These credentials do not match our record'
-        );
-      });
+  describe('# Sign in user', () => {
+    before(done => {
+      request
+        .post(signupUrl)
+        .send(user2)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(201);
+          done();
+        });
+    });
+    it('Should sign in user', done => {
+      request
+        .post(signinUrl)
+        .send({
+          username: 'Paystack',
+          password: '1234567890',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.body).to.be.an('object');
+          expect(response.body.data).to.have.property('token');
+          expect(response.body.data.token).to.be.a('string');
+          done();
+        });
+    });
+    it('Should not sign in user with the wrong password', done => {
+      request
+        .post(signinUrl)
+        .send({
+          username: 'paystack@test.com',
+          password: '12345',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(404);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.title).to.equal('Not Found');
+          expect(response.body.errors.detail).to.equal(
+            'Wrong username or password'
+          );
+          done();
+        });
+    });
     it('Should not sign in user with the wrong username', done => {
       request
         .post(signinUrl)
@@ -246,39 +247,40 @@ describe('# Sign in user', () => {
           expect(response.body.errors.detail).to.equal(
             'These credentials do not match our record'
           );
+          done();
         });
-      it('Should not sign in user if no username is provided', done => {
-        request
-          .post(signinUrl)
-          .send({
-            username: '',
-            password: '1234567890',
-          })
-          .end((error, response) => {
-            expect(response.statusCode).to.equal(400);
-            expect(response.body).to.be.an('object');
-            expect(response.body.errors.username).to.equal(
-              'Please provide a username or email'
-            );
-            done();
-          });
-        it('Should not sign in user if no password is provided', done => {
-          request
-            .post(signinUrl)
-            .send({
-              username: 'paystack@test.com',
-              password: '',
-            })
-            .end((error, response) => {
-              expect(response.statusCode).to.equal(400);
-              expect(response.body).to.be.an('object');
-              expect(response.body.errors.password).to.equal(
-                'Password is required'
-              );
-              done();
-            });
+    });
+    it('Should not sign in user if no username is provided', done => {
+      request
+        .post(signinUrl)
+        .send({
+          username: '',
+          password: '1234567890',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.username).to.equal(
+            'Please provide a username or email'
+          );
+          done();
         });
-      });
+    });
+    it('Should not sign in user if no password is provided', done => {
+      request
+        .post(signinUrl)
+        .send({
+          username: 'paystack@test.com',
+          password: '',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.password).to.equal(
+            'Password is required'
+          );
+          done();
+        });
     });
   });
 });
