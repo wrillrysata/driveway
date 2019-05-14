@@ -8,21 +8,49 @@ const signupUrl = '/api/v1/users/signup';
 const signinUrl = '/api/v1/users/signin';
 
 const user1 = {
-  username: 'Kart',
-  email: 'kart@test.com',
-  bio: 'A marketing firm',
+  username: 'test1',
+  email: 'test1@test.com',
+  bio: 'Test 1',
   location: 'Nigeria',
   password: '1234567890',
   confirmPassword: '1234567890',
 };
 const user2 = {
-  username: 'Paystack',
-  email: 'paystack@test.com',
-  bio: 'A leading Fintech organisation',
+  username: 'test2',
+  email: 'test2@test.com',
+  bio: 'Test 2',
   location: 'Nigeria',
   password: '1234567890',
   confirmPassword: '1234567890',
 };
+const user3 = {
+  username: 'test3',
+  email: 'test3@test.com',
+  bio: 'Test 3',
+  location: 'Nigeria',
+  password: '1234567890',
+  confirmPassword: '1234567890',
+};
+const user4 = {
+  username: 'test4',
+  email: 'test4@test.com',
+  bio: 'Test 4',
+  location: 'Nigeria',
+  password: '1234567890',
+  confirmPassword: '1234567890',
+};
+const user6 = {
+  username: 'test6',
+  email: 'test6@test.com',
+  bio: 'Test 6',
+  location: 'Nigeria',
+  password: '1234567890',
+  confirmPassword: '1234567890',
+};
+
+let userToken;
+let userToken2;
+let userToken3;
 
 describe('User API test', () => {
   describe('# Create user', () => {
@@ -168,8 +196,9 @@ describe('User API test', () => {
           );
           done();
         });
+      });
 
-      it("Should not register a user if passwords don't match", done => {
+      it('Should not register a user if passwords don\'t match', done => {
         request
           .post(signupUrl)
           .send({
@@ -205,7 +234,7 @@ describe('User API test', () => {
       request
         .post(signinUrl)
         .send({
-          username: 'Paystack',
+          username: 'test2',
           password: '1234567890',
         })
         .end((error, response) => {
@@ -220,7 +249,7 @@ describe('User API test', () => {
       request
         .post(signinUrl)
         .send({
-          username: 'paystack@test.com',
+          username: 'test2',
           password: '12345',
         })
         .end((error, response) => {
@@ -270,7 +299,7 @@ describe('User API test', () => {
       request
         .post(signinUrl)
         .send({
-          username: 'paystack@test.com',
+          username: 'test2',
           password: '',
         })
         .end((error, response) => {
@@ -283,4 +312,251 @@ describe('User API test', () => {
         });
     });
   });
+  describe('# Get user Profile ', () => {
+    before(done => {
+      request
+        .post(signupUrl)
+        .send(user3)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(201);
+          userToken = response.body.data.token;
+          done();
+        });
+    });
+    it('Should not get profile of a non-existing user', done => {
+      request.get('/api/v1/users/15/profile').end((error, response) => {
+        expect(response.statusCode).to.equal(404);
+        expect(response.body).to.be.an('object');
+        expect(response.body.errors.title).to.equal('Not Found');
+        expect(response.body.errors.detail).to.equal(
+          'A user with that Id is not found'
+        );
+        done();
+      });
+    });
+    it('Should not get profile if the user id is not a number', done => {
+      request.get('/api/v1/users/number/profile').end((error, response) => {
+        expect(response.statusCode).to.equal(400);
+        expect(response.body).to.be.an('object');
+        expect(response.body.errors.userId).to.equal('Invalid user Id');
+        done();
+      });
+    });
+    it('Should not get profile if no token is provided', done =>{
+      request.get('/api/v1/users/9/profile')
+      .end((error, response) => {
+        expect(response.statusCode).to.equal(401);
+        expect(response.body).to.be.an('object');
+        expect(response.body.errors.title).to.equal('Unauthorized');
+        expect(response.body.errors.title).to.equal('You are not allowed to perform this action');
+        done();
+    })
+  })
+    it('Should not get profile if the token id does not match user id', done =>{
+      request.get('/api/v1/users/20/profile')
+      .set('token', userToken)
+      .end((error, response) => {
+        expect(response.statusCode).to.equal(401);
+        expect(response.body).to.be.an('object');
+        expect(response.body.errors.title).to.equal('Unauthorized');
+        expect(response.body.errors.title).to.equal('You are not allowed to perform this action');
+        done();
+    })
+    it('Should get profile details if the token id matches user id', done => {
+      request
+        .get('/api/v1/users/5/profile')
+        .set('token', userToken)
+        .end((error, response) => {
+          expect(response.body).to.be.an('object');
+          expect(response.body.data.user).to.have.property('username');
+          expect(response.body.data.user).to.have.property('email');
+          expect(response.body.data.user).to.have.property('bio');
+          expect(response.body.data.user).to.have.property('location');
+          done();
+        });
+    });
+  });
 });
+  describe('# Update user Profile ', () => {
+    before(done => {
+      request
+        .post(signupUrl)
+        .send(user4)
+        .end((error, response) => {
+          expect(respo1nse.statusCode).to.equal(201);
+          userToken2 = response.body.data.token;
+          done();
+        });
+    });
+    it('Should not allow a non authenticated user edit their profile', done => {
+      request
+        .put('/api/v1/users/profile')
+        .send({
+          bio: 'new test bio',
+          location: 'Austria',
+        })
+        .end((error, response) => {
+          expect(response.statusCode.to.equal(401));
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.title).to.equal('Unauthorized');
+          expect(response.body.errors.detail).to.equal(
+            'You are not authorized to perform this action'
+          );
+          done();
+        });
+    });
+
+    it('Should allow an authenticated user to edit their profile', done => {
+      request
+        .put('/api/v1/users/profile')
+        .set('token', userToken2)
+        .send({
+          bio: 'new test bio',
+          location: 'Austria',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.body).to.be.an('object');
+          expect(response.body.data.user).to.have.property('username');
+          expect(response.body.data.user.bio).to.equal('new test bio');
+          expect(response.body.data.user.location).to.equal('Austria');
+          expect(response.body.data.user).to.have.property('email');
+          done();
+        });
+    });
+  });
+  describe('# Recover lost user password ', () => {
+    it('Should not send recovery link with an empty email field', done => {
+      request
+        .get('/api/v1/users/recover-password')
+        .send({
+          email: '',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.email).to.equal('Email is required');
+          done();
+        });
+    });
+    it('Should not send recovery link with an invalid email address', done => {
+      request
+        .get('/api/v1/users/recover-password')
+        .send({
+          email: 'testtest.com',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.email).to.equal(
+            'Email is invalid or empty'
+          );
+          done();
+        });
+    });
+    it('Should not send recovery link for an email that does not exist', done => {
+      request
+        .get('/api/v1/users/recover-password')
+        .send({
+          email: 'nonexisting@test.com',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(404);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.title).to.equal('Not Found');
+          expect(response.body.errors.detail).to.equal('Email not found');
+        });
+    });
+  });
+  describe('# Reset user password ', () => {
+    before(done => {
+      request
+        .post(signupUrl)
+        .send(user6)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(201);
+          userToken3 = response.body.data.token;
+          done();
+        });
+    });
+    it('Should not reset password if password field is empty', done => {
+      request
+        .put('/api/v1/users/password-reset')
+        .set('token', userToken3)
+        .send({
+          password: '',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.password).to.equal(
+            'Password is required'
+          );
+          done();
+        });
+    });
+    it('Should not reset password if confirm password field is empty', done => {
+      request
+        .put('/api/v1/users/password-reset')
+        .set('token', userToken3)
+        .send({
+          password: '1234567890',
+          confirmPassword: '',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.confirmPassword).to.equal(
+            'Please confirm your password'
+          );
+        });
+    });
+    it("Should not reset password if passwords don't match", done => {
+      request
+        .put('/api/v1/users/password-reset')
+        .set('token', userToken3)
+        .send({
+          password: '1234567890',
+          confirmPassword: '12345',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.confirmPassword).to.equal(
+            "Passwords don't match"
+          );
+        });
+    });
+    it('Should not reset password for a non-authenticated user', done => {
+      request
+        .put('/api/v1/users/password-reset')
+        .send({
+          password: '12345',
+          confirmPassword: '12345',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(401);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.title).to.equal('Unauthorized');
+          expect(response.body.errors.detail).to.equal(
+            'You are not authorized to perform this action'
+          );
+        });
+    });
+    it('Should reset password for an authenticated user', done => {
+      request
+        .put('/api/v1/users/password-reset')
+        .set('token', userToken3)
+        .send({
+          password: '12345',
+          confirmPassword: '12345',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.body).to.be.an('object');
+          expect(response.body.message).to.equal(
+            'Password updated successfully'
+          );
+        });
+    });
+  });
