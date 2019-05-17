@@ -7,7 +7,7 @@
     "start:server": "cross-env NODE_ENV=development nodemon --exec babel-node server/app ",
     "test:server": "cross-env NODE_ENV=test npm run reset-migrate && cross-env NODE_ENV=test nyc mocha server/test/**/*.js --exit --require @babel/register  --reporter spec",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "reset-migrate": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
+    "reset-migrate": "sequelize db:migrate:undo:all && sequelize db:migrate",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
