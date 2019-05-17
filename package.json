@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start:server": "cross-env NODE_ENV=development nodemon --exec babel-node server/app ",
-    "test:server": "cross-env NODE_ENV=test npm run reset-migrate && cross-env NODE_ENV=test mocha server/test/**/*.js --exit --require @babel/register  --reporter spec",
+    "test:server": "cross-env NODE_ENV=test npm run reset-migrate && cross-env NODE_ENV=test nyc mocha server/test/**/*.js --exit --require @babel/register  --reporter spec",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "reset-migrate": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -49,6 +50,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "path": "^0.12.7",
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
