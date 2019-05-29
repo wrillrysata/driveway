@@ -36,16 +36,15 @@ export default class usersController {
       where: {
         [Op.or]: [{ username: req.body.username }, { email: req.body.email }],
       },
-    }).then(existingUser => {
+    }).then((existingUser) => {
       if (existingUser) {
         return res.status(409).json({
           errors: {
             title: 'Conflict',
             detail: 'Username or Email already exist, please login',
-          },
+          }
         });
       }
-    });
 
     return db.User.create({
       username,
@@ -54,7 +53,7 @@ export default class usersController {
       location,
       password,
     })
-      .then(newUser => {
+      .then((newUser) => {
         const token = generateToken(newUser);
         return res.status(201).json({
           data: {
@@ -62,14 +61,13 @@ export default class usersController {
           },
         });
       })
-      .catch(Error => {
-        res.status(500).json({
-          errors: {
-            status: '500',
-            detail: 'Internal server error',
-          },
-        });
-      });
+    })
+      .catch(() => res.status(500).json({
+        errors: {
+          status: '500',
+          detail: 'Internal server error'
+        }
+      }));
   }
 
   /**
