@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - 10.11.0
+services:
+  - postgresql
+before_script:
+  - psql -c 'drop database if exists travis;' -U postgres
+  - psql -c 'create database travis;' -U postgres
+script:
+  - yarn run test:server
+env:
+  secure: Byx684ojSno/JVAdP4MkUA95XtzQKHgCCZx45Ka1v9DHyJDpz1aWlDAaGuV+Z8XNf93TtLeh6gp1F3nGaD/KjU3b/4VeH0X4Rvy1bee4n09Va0+Uen6PSUjc63G93y8YPVX5spVIA0NOen6uKjWQhiDAbd/VNcB5LFyseZFu38V1zU6JjiLcnLOz8YMTbVJn1ArREIwT4yeH16yDfXBWM4DU45VXcNCmmAb1ZUijgYxXp8PrikbXx4crL8KMpBx/TbfouBbwpGvmlcLThxq8FqK00wqplI9w+EQYQKUumvahNydeiCGqTZRmfR0YVbVMFiEOuHbUCkxA0Xw6JBQbV1QDDeNC9yfYGWTzEBt4fIRM1y5XpDEsKGE/mYaOGTmAKj9f285vP4kpd/uqr7/jucgYAkxIhbpPytuz8GzzgwmwfrqbjQqeN+fNCzlZn2mA7cMxHPZEJyXr0wEi2B5lpUHuBdrQQqZY/fl9DnDXhXAEKUZphvjKEFdFCLIUtT112ScJM2eL4+F7zoPR2Y+iNVEPOPcxA0lVPgkCuNovlqs1D++mohRMeZubhwEGG6dE4dOdxnoTrlEyxmb55PBLfoDyx8wH7JZx7V+lgBUCgLEwTaqfwQnKjEFnS+TZWI42oEpZk+K4rI0A54IxEnVKNx9ty2e6DhTLTTlJURaY7Mk=
+after_success:
+  - npm run coverage

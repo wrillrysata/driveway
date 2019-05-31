@@ -198,7 +198,7 @@ describe('User API test', () => {
         });
     });
 
-    it("Should not register a user if passwords don't match", done => {
+    it('Should not register a user if passwords don\'t match', done => {
       request
         .post(signupUrl)
         .send({
@@ -213,7 +213,7 @@ describe('User API test', () => {
           expect(response.statusCode).to.equal(400);
           expect(response.body).to.be.an('object');
           expect(response.body.errors.confirmPassword).to.equal(
-            "Passwords don't match"
+            'Passwords don\'t match' 
           );
           done();
         });
@@ -370,7 +370,7 @@ describe('# Get user Profile ', () => {
   });
   it('Should get profile details if the token id matches user id', done => {
     request
-      .get('/api/v1/users/5/profile')
+      .get('/api/v1/users/4/profile')
       .set('token', userToken)
       .end((error, response) => {
         expect(response.body).to.be.an('object');
