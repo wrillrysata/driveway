@@ -48,3 +48,19 @@ export const verifyUserSignin = (req, res, next) => {
     errors,
   });
 };
+
+export const verifyEmail = (req, res, next) => {
+  const { email } = req.body;
+  const errors = {};
+  if (!email) {
+    errors.email = 'Email is required';
+  } else if (email && !validator.isEmail(email.trim())) {
+    errors.email = 'Email is invalid or empty';
+  }
+  if (isEmpty(errors)) {
+    return next();
+  }
+  return res.status(400).json({
+    errors,
+  });
+};

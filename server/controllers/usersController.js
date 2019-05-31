@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import db from '../models/index';
 import generateToken from '../utils';
+import sendEmail from '../helperFunctions/sendEmail';
 
 /**
  *@class usersController
@@ -36,42 +37,40 @@ export default class usersController {
       where: {
         [Op.or]: [{ username: req.body.username }, { email: req.body.email }],
       },
-    }).then((existingUser) => {
-      if (existingUser) {
-        return res.status(409).json({
-          errors: {
-            title: 'Conflict',
-            detail: 'Username or Email already exist, please login',
-          }
-        });
-      }
-
-    return db.User.create({
-      username,
-      email,
-      bio,
-      location,
-      password,
     })
-      .then((newUser) => {
-        const token = generateToken(newUser);
-        return res.status(201).json({
-          data: {
-            token,
+      .then(existingUser => {
+        if (existingUser) {
+          return res.status(409).json({
+            errors: {
+              title: 'Conflict',
+              detail: 'Username or Email already exist, please login',
+            },
+          });
+        }
+
+        return db.User.create({
+          username,
+          email,
+          bio,
+          location,
+          password,
+        }).then(newUser => {
+          const token = generateToken(newUser);
+          return res.status(201).json({
+            data: {
+              token,
+            },
+          });
+        });
+      })
+      .catch(Error => {
+        res.status(500).json({
+          errors: {
+            status: '500',
+            detail: 'Internal server error',
           },
         });
-      })
-    })
-      .catch((Error) => {res.status(500).json({
-        errors: {
-          status: '500',
-          detail: 'Internal server error'
-        }
-      })
-      console.log(Error);
-    })
-    
-  
+      });
   }
 
   /**
@@ -263,7 +262,7 @@ export default class usersController {
   }
 
   /**
-   * @description - Recover users' lost password
+   * @description - Request by user to recover lost password
    * @static
    *
    * @param {Object} req - HTTP Request.
@@ -273,5 +272,48 @@ export default class usersController {
    *
    * @returns {Object} Class instance.
    */
-  static recoverPassword(req, res) {}
+  static recoverPassword(req, res) {
+    const { email } = req.body;
+    db.User.findOne({
+      where: {
+        email,
+      },
+    })
+      .then(foundUser => {
+        if (!foundUser) {
+          return res.status(404).json({
+            errors: {
+              title: 'Not Found',
+              detail: 'Email not found',
+            },
+          });
+        }
+        if (foundUser) {
+          const token = generateToken(foundUser);
+          const url = `http://${
+            req.headers.host
+          }/api/v1/users/password-reset/${token}`;
+          sendEmail(foundUser.email, url, res);
+        }
+      })
+      .catch(() =>
+        res.status(500).json({
+          errors: {
+            detail: 'internal server error',
+          },
+        })
+      );
+  }
+
+  /**
+   * @description - Link for user to reset their password
+   * @static
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   *
+   * @memberof usersController
+   *
+   * @returns {object} Class instance
+   */
 }
