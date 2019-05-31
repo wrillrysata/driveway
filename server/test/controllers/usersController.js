@@ -430,10 +430,10 @@ describe('# Update user Profile ', () => {
       });
   });
 });
-describe.skip('# Recover lost user password ', () => {
+describe('# Recover lost user password ', () => {
   it('Should not send recovery link with an empty email field', done => {
     request
-      .get('/api/v1/users/recover-password')
+      .post('/api/v1/users/recover-password')
       .send({
         email: '',
       })
@@ -446,7 +446,7 @@ describe.skip('# Recover lost user password ', () => {
   });
   it('Should not send recovery link with an invalid email address', done => {
     request
-      .get('/api/v1/users/recover-password')
+      .post('/api/v1/users/recover-password')
       .send({
         email: 'testtest.com',
       })
@@ -461,7 +461,7 @@ describe.skip('# Recover lost user password ', () => {
   });
   it('Should not send recovery link for an email that does not exist', done => {
     request
-      .get('/api/v1/users/recover-password')
+      .post('/api/v1/users/recover-password')
       .send({
         email: 'nonexisting@test.com',
       })
@@ -470,6 +470,7 @@ describe.skip('# Recover lost user password ', () => {
         expect(response.body).to.be.an('object');
         expect(response.body.errors.title).to.equal('Not Found');
         expect(response.body.errors.detail).to.equal('Email not found');
+        done();
       });
   });
 });
