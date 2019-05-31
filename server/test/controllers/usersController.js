@@ -198,7 +198,7 @@ describe('User API test', () => {
         });
     });
 
-    it('Should not register a user if passwords don\'t match', done => {
+    it("Should not register a user if passwords don't match", done => {
       request
         .post(signupUrl)
         .send({
@@ -213,7 +213,7 @@ describe('User API test', () => {
           expect(response.statusCode).to.equal(400);
           expect(response.body).to.be.an('object');
           expect(response.body.errors.confirmPassword).to.equal(
-            'Passwords don\'t match' 
+            "Passwords don't match"
           );
           done();
         });

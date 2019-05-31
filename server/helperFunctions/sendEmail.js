@@ -9,15 +9,14 @@ const sendEmail = (email, url, res) => {
     auth: {
       user: process.env.EMAIL_ADDRESS,
       pass: process.env.PASSWORD,
-    }
+    },
   });
 
   const mailOptions = {
     from: 'admin@driveway.com',
     to: email,
     subject: 'Password Reset',
-    html:
-      `<div>
+    html: `<div>
     <p> Please click on the link below to reset your password</p>
           <a href=${url}
                 style="
@@ -35,15 +34,17 @@ const sendEmail = (email, url, res) => {
               Reset Button 
           </a>
     <p> If you did not make this request please ignore the message </p>
-    </div>`
+    </div>`,
   };
 
-  transporter.sendMail(mailOptions, (error) => {
+  transporter.sendMail(mailOptions, error => {
     if (error) {
-      return res.status(500)
+      return res
+        .status(500)
         .json({ message: 'An error occured while trying to send your mail' });
     }
-    return res.status(200)
+    return res
+      .status(200)
       .json({ message: 'A recovery link has been sent to your mail' });
   });
 };

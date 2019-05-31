@@ -2,7 +2,7 @@ import user from '../controllers/usersController';
 import {
   verifyUserSignUp,
   verifyUserSignin,
-  verifyEmail
+  verifyEmail,
 } from '../middleware/userValidation';
 import { verifyUserId } from '../middleware/idValidation';
 import authorization from '../middleware/authorization';
@@ -13,8 +13,8 @@ export default function userRoutes(app) {
   app.get('/api/v1/users/:userId/profile', verifyUserId, user.userProfile);
   app.put('/api/v1/users/:userId/profile', authorization, user.editUserProfile);
   app.post('/api/v1/users/recover-password', verifyEmail, user.recoverPassword);
-  //app.put(
-   // '/api/v1/users/password-reset',
-   // authorization, verifyPassword, user.resetPassword
+  // app.put(
+  // '/api/v1/users/password-reset',
+  // authorization, verifyPassword, user.resetPassword
   // );
 }
