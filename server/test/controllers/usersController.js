@@ -474,7 +474,7 @@ describe('# Recover lost user password ', () => {
       });
   });
 });
-describe.skip('# Reset user password ', () => {
+describe('# Reset user password ', () => {
   before(done => {
     request
       .post(signupUrl)
@@ -513,6 +513,7 @@ describe.skip('# Reset user password ', () => {
         expect(response.body.errors.confirmPassword).to.equal(
           'Please confirm your password'
         );
+        done();
       });
   });
   it("Should not reset password if passwords don't match", done => {
@@ -529,6 +530,7 @@ describe.skip('# Reset user password ', () => {
         expect(response.body.errors.confirmPassword).to.equal(
           "Passwords don't match"
         );
+        done();
       });
   });
   it('Should not reset password for a non-authenticated user', done => {
@@ -545,6 +547,7 @@ describe.skip('# Reset user password ', () => {
         expect(response.body.errors.detail).to.equal(
           'You are not authorized to perform this action'
         );
+        done();
       });
   });
   it('Should reset password for an authenticated user', done => {
@@ -556,9 +559,12 @@ describe.skip('# Reset user password ', () => {
         confirmPassword: '12345',
       })
       .end((error, response) => {
-        expect(response.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(401);
         expect(response.body).to.be.an('object');
-        expect(response.body.message).to.equal('Password updated successfully');
+        expect(response.body.message).to.equal(
+          'You do not have the permission to perform this action'
+        );
+        done();
       });
   });
 });

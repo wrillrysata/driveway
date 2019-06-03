@@ -290,10 +290,12 @@ export default class usersController {
         }
         if (foundUser) {
           const token = generateToken(foundUser);
-          const url = `http://${
-            req.headers.host
-          }/api/v1/users/password-reset/${token}`;
-          sendEmail(foundUser.email, url, res);
+          foundUser.update({ token }).then(() => {
+            const url = `http://${
+              req.headers.host
+            }/api/v1/users/password-reset/${token}`;
+            sendEmail(foundUser.email, url, res);
+          });
         }
       })
       .catch(() =>
@@ -309,11 +311,44 @@ export default class usersController {
    * @description - Link for user to reset their password
    * @static
    *
-   * @param {object} req - HTTP Request
-   * @param {object} res - HTTP Response
+   * @param {Object} req - HTTP Request.
+   * @param {Object} res - HTTP Response.
    *
    * @memberof usersController
    *
-   * @returns {object} Class instance
+   * @returns {Object} Class instance.
    */
+  static resetPassword(req, res) {
+    const { password } = req.body;
+    db.User.findOne({
+      where: {
+        id: req.params.userId,
+      },
+    })
+      .then(foundUser => {
+        if (foundUser.token === req.headers.token) {
+          const newPassword = {
+            password: bcrypt.hashSync(password, 10),
+            token: null,
+          };
+          foundUser.update(newPassword).then(() =>
+            res.status(200).json({
+              message: 'Password reset was successful, Please login',
+            })
+          );
+        } else {
+          return res.status(401).json({
+            message: 'You do not have the permission to perform this action',
+          });
+        }
+      })
+      .catch(Error => {
+        res.status(500).json({
+          errors: {
+            status: '500',
+            detail: 'internal server error',
+          },
+        });
+      });
+  }
 }

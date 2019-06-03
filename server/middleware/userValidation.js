@@ -64,3 +64,25 @@ export const verifyEmail = (req, res, next) => {
     errors,
   });
 };
+
+export const verifyPassword = (req, res, next) => {
+  const { password, confirmPassword } = req.body;
+  const errors = {};
+  if (!password) {
+    errors.password = 'Password is required';
+  } else if (!confirmPassword) {
+    errors.confirmPassword = 'Please confirm your password';
+  } else if (
+    validator.isEmpty(password) ||
+    validator.isEmpty(confirmPassword) ||
+    confirmPassword.trim() !== password.trim()
+  ) {
+    errors.confirmPassword = "Passwords don't match";
+  }
+  if (isEmpty(errors)) {
+    return next();
+  }
+  return res.status(400).json({
+    errors,
+  });
+};
