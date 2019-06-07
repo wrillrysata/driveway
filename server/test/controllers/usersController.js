@@ -370,7 +370,7 @@ describe('# Get user Profile ', () => {
   });
   it('Should get profile details if the token id matches user id', done => {
     request
-      .get('/api/v1/users/4/profile')
+      .get('/api/v1/users/5/profile')
       .set('token', userToken)
       .end((error, response) => {
         expect(response.body).to.be.an('object');
