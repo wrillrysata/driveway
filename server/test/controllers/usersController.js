@@ -395,7 +395,7 @@ describe('# Update user Profile ', () => {
   });
   it('Should not allow a non authenticated user edit their profile', done => {
     request
-      .put('/api/v1/users/7/profile')
+      .put('/api/v1/users/profile')
       .send({
         bio: 'new test bio',
         location: 'Austria',
@@ -413,7 +413,7 @@ describe('# Update user Profile ', () => {
 
   it('Should allow an authenticated user to edit their profile', done => {
     request
-      .put('/api/v1/users/7/profile')
+      .put('/api/v1/users/profile')
       .set('token', userToken2)
       .send({
         bio: 'new test bio',
