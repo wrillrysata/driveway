@@ -5,7 +5,7 @@ const authorization = (req, res, next) => {
 
   try {
     const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
-    req.params.userId = verifyToken.id;
+    req.userId = verifyToken.id;
     req.username = verifyToken.username;
     return next();
   } catch (error) {

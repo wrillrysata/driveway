@@ -219,7 +219,7 @@ export default class usersController {
     const { username, bio, location } = req.body;
     db.User.findOne({
       where: {
-        id: req.params.userId,
+        id: req.userId,
       },
     })
       .then(foundUser => {
@@ -227,7 +227,7 @@ export default class usersController {
           return res.status(404).json({
             error: {
               title: 'Not Found',
-              detail: `Can't find user with id ${req.params.userId}`,
+              detail: `Can't find user with id ${req.userId}`,
             },
           });
         }
@@ -322,7 +322,7 @@ export default class usersController {
     const { password } = req.body;
     db.User.findOne({
       where: {
-        id: req.params.userId,
+        id: req.userId,
       },
     })
       .then(foundUser => {
