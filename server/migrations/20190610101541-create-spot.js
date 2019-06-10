@@ -1,33 +1,38 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('Users', {
+    queryInterface.createTable('Spots', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      username: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      email: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      bio: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      location: {
+      spotname: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      password: {
+      status: {
         type: Sequelize.STRING,
+        defaultValue: 'free',
+      },
+      parkId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Parks',
+          key: 'id',
+          as: 'parkId',
+        },
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'userId',
+        },
       },
       createdAt: {
         allowNull: false,
@@ -38,5 +43,5 @@ module.exports = {
         type: Sequelize.DATE,
       },
     }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('Users'),
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Spots'),
 };

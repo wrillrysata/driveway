@@ -42,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = function(models) {
     // associations can be defined here
+    User.hasMany(
+      models.Park,
+      { foreignKey: 'userId', onDelete: 'CASCADE' }
+    );
+    User.hasMany(
+      models.Spot,
+      { foreignKey: 'userId', onDelete: 'CASCADE' }
+    );
   };
   return User;
 };
