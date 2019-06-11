@@ -29,7 +29,7 @@ describe('Admin user test', () => {
         .set('token', adminToken)
         .send({
           parkname: '',
-          initalSpots: 5,
+          initialSpots: 5,
           status: 'active',
         })
         .end((error, response) => {
@@ -41,13 +41,13 @@ describe('Admin user test', () => {
           done();
         });
     });
-    it('Should not add a park without specifying inital spots', done => {
+    it('Should not add a park without specifying initial spots', done => {
       request
         .post('/api/v1/parks')
         .set('token', adminToken)
         .send({
           parkname: 'Rails',
-          initalSpots: '',
+          initialSpots: '',
           status: 'active',
         })
         .end((error, response) => {
@@ -99,7 +99,7 @@ describe('Admin user test', () => {
         .post('/api/v1/parks')
         .send({
           parkname: 'Dzone',
-          initalSpots: 5,
+          initialSpots: 5,
           status: 'active',
         })
         .end((error, response) => {
@@ -119,7 +119,7 @@ describe('Admin user test', () => {
         .put('/api/v1/parks/2')
         .send({
           parkname: 'The Yard',
-          initalSpots: 10,
+          initialSpots: 10,
           status: 'inactive',
         })
         .end((error, response) => {
@@ -138,7 +138,7 @@ describe('Admin user test', () => {
         .set('token', adminToken)
         .send({
           parkname: 'The Yard',
-          initalSpots: 10,
+          initialSpots: 10,
           status: 'inactive',
         })
         .end((error, response) => {
@@ -156,7 +156,7 @@ describe('Admin user test', () => {
         .set('token', adminToken)
         .send({
           parkname: 'The Yard',
-          initalSpots: 10,
+          initialSpots: 10,
           status: 'inactive',
         })
         .end((error, response) => {
@@ -174,7 +174,7 @@ describe('Admin user test', () => {
         .set('token', adminToken)
         .send({
           parkname: 'Crib',
-          initalSpots: 5,
+          initialSpots: 5,
           status: 'inactive',
         })
         .end((error, response) => {
@@ -196,7 +196,7 @@ describe('Admin user test', () => {
         expect(response.body).to.be.an('object');
         expect(response.body.data).to.have.property('parkname');
         expect(response.body.data).to.have.property('status');
-        expect(response.body.data).to.have.property('initalSpots');
+        expect(response.body.data).to.have.property('initialSpots');
 
         expect(response.body.data.parks).to.be.an('array');
 
@@ -223,7 +223,7 @@ describe('Admin user test', () => {
         expect(response.body).to.be.an('object');
         expect(response.body.data.park).to.have.property('status');
         expect(response.body.data.park).to.have.property('parkname');
-        expect(response.body.data).to.have.property('initalSpots');
+        expect(response.body.data).to.have.property('initialSpots');
 
         done();
       });
