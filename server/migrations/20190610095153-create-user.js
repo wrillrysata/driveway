@@ -29,7 +29,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      token:{
+      token: {
         type: Sequelize.TEXT,
         allowNull: true,
       },
