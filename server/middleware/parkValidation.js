@@ -17,8 +17,6 @@ const verifyNewPark = (req, res, next) => {
   
   if (isEmpty(errors)) {
     return next();
-  }else{
-    console.log(errors);
   }
   return res.status(400).json({ errors });
 };
