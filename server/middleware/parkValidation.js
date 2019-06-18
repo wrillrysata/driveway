@@ -2,8 +2,8 @@ import { isEmpty } from 'lodash';
 import validator from 'validator';
 
 const verifyNewPark = (req, res, next) => {
-    const errors = {};
-  const { parkname, initialSpots} = req.body;
+  const errors = {};
+  const { parkname, initialSpots } = req.body;
   if (!parkname) {
     errors.parkname = 'Please enter a parkname';
   } else if (parkname && validator.isEmpty(parkname.trim())) {
@@ -14,7 +14,7 @@ const verifyNewPark = (req, res, next) => {
   } else if (Number.isNaN(parseInt(initialSpots, 10))) {
     errors.initialSpots = 'Invalid value for spots';
   }
-  
+
   if (isEmpty(errors)) {
     return next();
   }

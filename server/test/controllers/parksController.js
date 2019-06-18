@@ -113,13 +113,12 @@ describe('Admin user test', () => {
         });
     });
   });
-  describe.skip('# Edit park', () => {
+  describe('# Edit park', () => {
     it('Should not allow a non auth user edit details of a park', done => {
       request
         .put('/api/v1/parks/2')
         .send({
           parkname: 'The Yard',
-          initialSpots: 10,
           status: 'inactive',
         })
         .end((error, response) => {
@@ -138,7 +137,6 @@ describe('Admin user test', () => {
         .set('token', adminToken)
         .send({
           parkname: 'The Yard',
-          initialSpots: 10,
           status: 'inactive',
         })
         .end((error, response) => {
@@ -156,7 +154,6 @@ describe('Admin user test', () => {
         .set('token', adminToken)
         .send({
           parkname: 'The Yard',
-          initialSpots: 10,
           status: 'inactive',
         })
         .end((error, response) => {
@@ -174,7 +171,6 @@ describe('Admin user test', () => {
         .set('token', adminToken)
         .send({
           parkname: 'Crib',
-          initialSpots: 5,
           status: 'inactive',
         })
         .end((error, response) => {
