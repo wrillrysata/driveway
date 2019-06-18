@@ -70,4 +70,57 @@ export default class parksController {
         });
       });
   }
+
+  /**
+   * @description - Edits a park details
+   * @static
+   *
+   * @param {Object} req - HTTP Request.
+   * @param {Object} res - HTTP Response.
+   *
+   * @memberof parksController
+   *
+   * @returns {Object} Class instance.
+   */
+  static editPark(req, res) {
+    const { parkname, status } = req.body;
+
+    db.Park.findOne({
+      where: {
+        id: req.params.parkId,
+        userId: req.userId,
+      },
+    })
+      .then(foundPark => {
+        if (!foundPark) {
+          return res.status(404).json({
+            errors: {
+              title: 'Not Found',
+              detail: 'A park with that Id is not found',
+            },
+          });
+        }
+        if (foundPark) {
+          const parkDetails = {
+            parkname: parkname ? parkname.trim() : foundPark.parkname,
+            status: status ? status.trim() : foundPark.status,
+          };
+          foundPark.update(parkDetails).then(updatedPark =>
+            res.status(200).json({
+              data: {
+                park: updatedPark,
+              },
+            })
+          );
+        }
+      })
+      .catch(error => {
+        res.status(500).json({
+          errors: {
+            status: '500',
+            detail: 'Internal server error',
+          },
+        });
+      });
+  }
 }
