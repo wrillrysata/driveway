@@ -1,6 +1,12 @@
 import Sequelize from 'sequelize';
 import db from '../models/index';
 
+const errors = {
+  title: 'Not Found',
+  detail:
+    'Can\'t find a park with that id'
+};
+
 /**
  *@class parksController
  *
@@ -122,5 +128,56 @@ export default class parksController {
           },
         });
       });
+  }
+
+  /**
+   * @description - Deletes a park
+   * @static
+   *
+   * @param {Object} req - HTTP Request.
+   * @param {Object} res - HTTP Response.
+   *
+   * @memberof parksController
+   *
+   * @returns {Object} Class instance.
+   */
+  static deletePark(req, res) {
+    db.Park.findOne({
+      where: {
+        id: req.params.parkId,
+        userId: req.userId
+      }
+    })
+      .then((foundPark) => {
+        if (foundPark) {
+          db.Park.destroy({
+            where: {
+              id: req.params.parkId,
+              userId: req.userId
+            },
+            cascade: true
+          })
+            .then(() => res.status(200)
+              .json({
+                data: {
+                  message: 'Park deleted successfully'
+                }
+              }));
+        }
+        if (!foundPark) {
+          return res.status(404)
+            .json({
+              errors
+            });
+        }
+      })
+      .catch(() => res.status(500)
+        .json({
+          errors: {
+            status: '500',
+            detail: 'Internal server error'
+          }
+        }));
+
   }
 }
