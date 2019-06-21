@@ -236,7 +236,7 @@ describe('Admin user test', () => {
       });
     });
   });
-  describe.skip('# Delete a park', () => {
+  describe('# Delete a park', () => {
     it('Should not allow a non auth user delete a park', done => {
       request.delete('/api/v1/parks/1').end((error, response) => {
         expect(response.statusCode).to.equal(401);
@@ -261,16 +261,19 @@ describe('Admin user test', () => {
         });
     });
     it('Should not delete a park that does not exist', done => {
-      request.delete('/api/v1/parks/40').end((error, response) => {
-        expect(response.statusCode).to.equal(404);
-        expect(response.body).to.be.an('object');
-        expect(response.body.errors.title).to.equal('Not Found');
-        expect(response.body.errors.detail).to.equal(
-          "Can't find a park with that id"
-        );
+      request
+        .delete('/api/v1/parks/40')
+        .set('token', adminToken)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(404);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.title).to.equal('Not Found');
+          expect(response.body.errors.detail).to.equal(
+            "Can't find a park with that id"
+          );
 
-        done();
-      });
+          done();
+        });
     });
   });
 });

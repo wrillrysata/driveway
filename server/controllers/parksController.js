@@ -3,8 +3,7 @@ import db from '../models/index';
 
 const errors = {
   title: 'Not Found',
-  detail:
-    'Can\'t find a park with that id'
+  detail: "Can't find a park with that id",
 };
 
 /**
@@ -145,39 +144,38 @@ export default class parksController {
     db.Park.findOne({
       where: {
         id: req.params.parkId,
-        userId: req.userId
-      }
+        userId: req.userId,
+      },
     })
-      .then((foundPark) => {
+      .then(foundPark => {
         if (foundPark) {
           db.Park.destroy({
             where: {
               id: req.params.parkId,
-              userId: req.userId
+              userId: req.userId,
             },
-            cascade: true
-          })
-            .then(() => res.status(200)
-              .json({
-                data: {
-                  message: 'Park deleted successfully'
-                }
-              }));
+            cascade: true,
+          }).then(() =>
+            res.status(200).json({
+              data: {
+                message: 'Park deleted successfully',
+              },
+            })
+          );
         }
         if (!foundPark) {
-          return res.status(404)
-            .json({
-              errors
-            });
+          return res.status(404).json({
+            errors,
+          });
         }
       })
-      .catch(() => res.status(500)
-        .json({
+      .catch(() =>
+        res.status(500).json({
           errors: {
             status: '500',
-            detail: 'Internal server error'
-          }
-        }));
-
+            detail: 'Internal server error',
+          },
+        })
+      );
   }
 }

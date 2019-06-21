@@ -23,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'CASCADE',
     });
-/** Spot.hasOne(models.CarSpot,{
+    /** Spot.hasOne(models.CarSpot,{
 foreignKey: 'spotId',
       onDelete: 'CASCADE',
-});**/
+});* */
     Spot.belongsTo(models.Park, {
       foreignKey: 'parkId',
-      onDelete: 'CASCADE'
+      onDelete: 'CASCADE',
     });
   };
   return Spot;

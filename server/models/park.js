@@ -25,9 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     });
     Park.hasMany(models.Spot, {
       foreignKey: 'parkId',
-      onDelete: 'CASCADE'
-    }
-    );
+      onDelete: 'CASCADE',
+    });
   };
   return Park;
 };

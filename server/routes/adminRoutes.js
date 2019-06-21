@@ -19,5 +19,5 @@ export default function adminRoutes(app) {
   app
     .route('/api/v1/parks/:parkId')
     .put(authorization, verifyParkId, park.editPark)
-    .delete(authorization,verifyParkId,park.deletePark)
+    .delete(authorization, verifyParkId, park.deletePark);
 }
