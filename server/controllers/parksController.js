@@ -178,4 +178,86 @@ export default class parksController {
         })
       );
   }
+
+  /**
+   * @description - Gets all park by user
+   * @static
+   *
+   * @param {Object} req - HTTP Request.
+   * @param {Object} res - HTTP Response.
+   *
+   * @memberof parksController
+   *
+   * @returns {Object} Class instance.
+   */
+  static getParks(req, res) {
+    db.Park.findAll({
+      where: {
+        userId: req.userId,
+      },
+    })
+      .then(foundParks => {
+        if (foundParks) {
+          return res.status(200).json({
+            data: {
+              parks: foundParks,
+            },
+          });
+        }
+
+        return res.status(404).json({
+          data: {
+            message: 'No parks found',
+          },
+        });
+      })
+      .catch(Error => {
+        res.status(500).json({
+          errors: {
+            status: '500',
+            detail: 'Internal server error',
+          },
+        });
+      });
+  }
+
+  /**
+   * @description - Get a park
+   * @static
+   *
+   * @param {Object} req - HTTP Request.
+   * @param {Object} res - HTTP Response.
+   *
+   * @memberof parksController
+   *
+   * @returns {Object} Class instance.
+   */
+  static getAPark(req, res) {
+    db.Park.findOne({
+      where: {
+        id: req.params.parkId,
+      },
+    })
+      .then(foundPark => {
+        if (foundPark) {
+          return res.status(200).json({
+            data: {
+              park: foundPark,
+            },
+          });
+        }
+
+        return res.status(404).json({
+          errors,
+        });
+      })
+      .catch(Error => {
+        res.status(500).json({
+          errors: {
+            status: '500',
+            detail: 'Internal server error',
+          },
+        });
+      });
+  }
 }

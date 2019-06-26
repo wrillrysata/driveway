@@ -14,10 +14,12 @@ import { verifyParkId } from '../middleware/idValidation';
 export default function adminRoutes(app) {
   app
     .route('/api/v1/parks')
-    .post(authorization, parkValidation, park.createPark);
+    .post(authorization, parkValidation, park.createPark)
+    .get(authorization, park.getParks);
 
   app
     .route('/api/v1/parks/:parkId')
     .put(authorization, verifyParkId, park.editPark)
-    .delete(authorization, verifyParkId, park.deletePark);
+    .delete(authorization, verifyParkId, park.deletePark)
+    .get(authorization, verifyParkId, park.getAPark);
 }
