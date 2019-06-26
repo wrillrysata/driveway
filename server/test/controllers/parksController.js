@@ -185,55 +185,63 @@ describe('Admin user test', () => {
         });
     });
   });
-  describe.skip('# Get all parks', () => {
+  describe('# Get all parks', () => {
     it('Should get all parks by user', done => {
-      request.get('/api/v1/parks').end((error, response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.body).to.be.an('object');
-        expect(response.body.data).to.have.property('parkname');
-        expect(response.body.data).to.have.property('status');
-        expect(response.body.data).to.have.property('initialSpots');
+      request
+        .get('/api/v1/parks')
+        .set('token', adminToken)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.body).to.be.an('object');
+          expect(response.body.data.parks).to.be.an('array');
 
-        expect(response.body.data.parks).to.be.an('array');
-
-        done();
-      });
+          done();
+        });
     });
   });
-  describe.skip('# Get a park', () => {
+  describe('# Get a park', () => {
     it('Should not get a park that does not exist', done => {
-      request.get('/api/v1/parks/9').end((error, response) => {
-        expect(response.statusCode).to.equal(404);
-        expect(response.body).to.be.an('object');
-        expect(response.body.errors.title).to.equal('Not Found');
-        expect(response.body.errors.detail).to.equal(
-          "Can't find a park with that id"
-        );
+      request
+        .get('/api/v1/parks/9')
+        .set('token', adminToken)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(404);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.title).to.equal('Not Found');
+          expect(response.body.errors.detail).to.equal(
+            "Can't find a park with that id"
+          );
 
-        done();
-      });
+          done();
+        });
     });
     it('Should get a park', done => {
-      request.get('/api/v1/parks/1').end((error, response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.body).to.be.an('object');
-        expect(response.body.data.park).to.have.property('status');
-        expect(response.body.data.park).to.have.property('parkname');
-        expect(response.body.data).to.have.property('initialSpots');
+      request
+        .get('/api/v1/parks/1')
+        .set('token', adminToken)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.body).to.be.an('object');
+          expect(response.body.data.park).to.have.property('status');
+          expect(response.body.data.park).to.have.property('parkname');
+          expect(response.body.data.park).to.have.property('initialSpots');
 
-        done();
-      });
+          done();
+        });
     });
     it('Should not get a park whose id is not a number', done => {
-      request.get('/api/v1/parks/:parkId').end((error, response) => {
-        expect(response.statusCode).to.equal(400);
-        expect(response.body).to.be.an('object');
-        expect(response.body.errors.parkId).to.equal(
-          'Park id must be a number'
-        );
+      request
+        .get('/api/v1/parks/:parkId')
+        .set('token', adminToken)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.errors.parkId).to.equal(
+            'Park Id must be a number'
+          );
 
-        done();
-      });
+          done();
+        });
     });
   });
   describe('# Delete a park', () => {
