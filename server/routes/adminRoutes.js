@@ -1,4 +1,5 @@
 import park from '../controllers/parksController';
+import spot from '../controllers/spotsController';
 import authorization from '../middleware/authorization';
 import parkValidation from '../middleware/parkValidation';
 import { verifyParkId } from '../middleware/idValidation';
@@ -22,4 +23,9 @@ export default function adminRoutes(app) {
     .put(authorization, verifyParkId, park.editPark)
     .delete(authorization, verifyParkId, park.deletePark)
     .get(authorization, verifyParkId, park.getAPark);
+
+  // generate a spot
+  app
+    .route('/api/v1/parks/:parkId/spot/new')
+    .post(authorization, spot.generateSpot);
 }
