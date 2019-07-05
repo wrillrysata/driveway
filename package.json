@@ -1,6 +1,9 @@
 {
   "name": "driveway",
   "version": "1.0.0",
+  "engines": {
+    "yarn": "1.12.3"
+  },
   "description": "A car park manager ",
   "main": "app.js",
   "scripts": {
@@ -41,7 +44,6 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "yarn": "1.12.3",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
