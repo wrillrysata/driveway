@@ -1,9 +1,6 @@
 {
   "name": "driveway",
   "version": "1.0.0",
-  "engines": {
-    "yarn": "1.12.3"
-  },
   "description": "A car park manager ",
   "main": "app.js",
   "scripts": {
