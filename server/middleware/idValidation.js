@@ -23,3 +23,15 @@ export const verifyParkId = (req, res, next) => {
   if (isEmpty(errors)) return next();
   return res.status(400).json({ errors });
 };
+
+export const verifySpotId = (req, res, next) => {
+  const { spotId } = req.params;
+  const errors = {};
+
+  if (Number.isNaN(parseInt(spotId, 10))) {
+    errors.spotId = 'Spot Id must be a number';
+  }
+
+  if (isEmpty(errors)) return next();
+  return res.status(400).json({ errors });
+};
