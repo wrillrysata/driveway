@@ -52,7 +52,7 @@ export default class spotsController {
           db.Spot.create({
             spotname,
             userId: req.userId,
-            spotId: req.params.spotId,
+            parkId: req.params.parkId,
             status,
           }).then(newSpot => {
             res.status(201).json({
