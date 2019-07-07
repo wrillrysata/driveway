@@ -6,16 +6,20 @@ const request = supertest(app);
 
 let adminToken;
 const signinUrl = '/api/v1/users/signin';
+const parkUrl = '/api/v1/parks';
 const admin = {
   username: 'admin',
   password: process.env.ADMIN_PASSWORD,
 };
-const spot1 = {
-  spotname:'Spot XSF',
+const spot = {
   status: 'Free',
-  parkId:'9' 
 };
-describe.skip('Admin spot test', () => {
+const park = {
+  parkname: 'The Lounge',
+  initialSpots: 2,
+  status: 'active',
+};
+describe('Admin spot test', () => {
   describe('# Generate a parking spot', () => {
     before(done => {
       request
@@ -27,10 +31,20 @@ describe.skip('Admin spot test', () => {
           done();
         });
     });
+    before(done => {
+      request
+        .post(parkUrl)
+        .set('token', adminToken)
+        .send(park)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(201);
+          done();
+        });
+    });
     it('Should not generate a parking spot for non auth user', done => {
       request
         .post('/api/v1/parks/:parkId/spot/new')
-        .send(spot1)
+        .send(spot)
         .end((error, response) => {
           expect(response.statusCode).to.equal(401);
           expect(response.body).to.be.an('object');
@@ -44,9 +58,9 @@ describe.skip('Admin spot test', () => {
     });
     it('Should generate a parking spot for auth user', done => {
       request
-        .post('/api/v1/parks/1/spot/new')
+        .post('/api/v1/parks/2/spot/new')
         .set('token', adminToken)
-        .send(spot1)
+        .send(spot)
         .end((error, response) => {
           expect(response.statusCode).to.equal(201);
           expect(response.body).to.be.an('object');
@@ -55,11 +69,21 @@ describe.skip('Admin spot test', () => {
         });
     });
   });
-  describe.skip('# Delete a parking spot', () => {
+  describe('# Delete a parking spot', () => {
+    before(done => {
+      request
+        .post(signinUrl)
+        .send(admin)
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(200);
+          adminToken = response.body.data.token;
+          done();
+        });
+    });
     it('Should not delete a parking spot if id is not a number', done => {
       request
         .delete('/api/v1/spot/:spotId')
-        .set(token, adminToken)
+        .set('token', adminToken)
         .end((error, response) => {
           expect(response.statusCode).to.equal(400);
           expect(response.body).to.be.an('object');
@@ -72,7 +96,7 @@ describe.skip('Admin spot test', () => {
     it('Should not delete a parking spot that does not exist', done => {
       request
         .delete('/api/v1/spot/11')
-        .set(token, adminToken)
+        .set('token', adminToken)
         .end((error, response) => {
           expect(response.statusCode).to.equal(404);
           expect(response.body).to.be.an('object');
@@ -97,7 +121,7 @@ describe.skip('Admin spot test', () => {
     });
     it('Should delete a parking spot for auth user', done => {
       request
-        .delete('/api/v1/spot/1')
+        .delete('/api/v1/spot/8')
         .set('token', adminToken)
         .end((error, response) => {
           expect(response.statusCode).to.equal(200);

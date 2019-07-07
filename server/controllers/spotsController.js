@@ -4,7 +4,7 @@ import db from '../models/index';
 
 const errors = {
   title: 'Not Found',
-  detail: "Can't find a spot with that id"
+  detail: 'A spot with that Id is not found',
 };
 /**
  *@class spotsController
@@ -73,7 +73,7 @@ export default class spotsController {
       });
   }
 
-/**
+  /**
    * @description - Deletes a spot
    * @static
    *
@@ -121,6 +121,5 @@ export default class spotsController {
           },
         })
       );
-
   }
 }

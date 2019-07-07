@@ -28,8 +28,9 @@ export default function adminRoutes(app) {
   app
     .route('/api/v1/parks/:parkId/spot/new')
     .post(authorization, spot.generateSpot);
-    
-app.route('/api/v1/spots/:spotId')
-    //delete a spot
+
+  app
+    .route('/api/v1/spot/:spotId')
+    // delete a spot
     .delete(authorization, verifySpotId, spot.deleteSpot);
 }
