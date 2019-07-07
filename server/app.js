@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 routes(app);
 app.get('/', (req, res) => {
-  res.status(200).send('Welcome to Driveway app');
+  res.status(200).send('Welcome to the Driveway API');
 });
 
 app.use('*', (req, res) =>
