@@ -6,7 +6,7 @@
   "scripts": {
     "start:server": "cross-env NODE_ENV=development nodemon --exec babel-node server/app ",
     "start:prod": "cross-env NODE_ENV=production babel-node server/app",
-    "test:server": "cross-env NODE_ENV=test yarn run reset-migrate && cross-env NODE_ENV=test nyc mocha server/test/**/*.js --exit --require @babel/register  --reporter spec",
+    "test:server": "cross-env NODE_ENV=test yarn run reset-migrate && cross-env NODE_ENV=test nyc mocha server/test/**/*.js --timeout 10000 --exit --require @babel/register  --reporter spec",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "reset-migrate": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "lint": "eslint .",

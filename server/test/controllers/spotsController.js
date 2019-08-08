@@ -31,13 +31,18 @@ describe('Admin spot test', () => {
           done();
         });
     });
-    before(done => {
+    it('Should add park', done => {
       request
-        .post(parkUrl)
+        .post('/api/v1/parks')
         .set('token', adminToken)
-        .send(park)
+        .send({
+          parkname: 'Test Spot',
+          initialSpots: 2,
+          status: 'active',
+        })
         .end((error, response) => {
           expect(response.statusCode).to.equal(201);
+          expect(response.body).to.be.an('object');
           done();
         });
     });
@@ -58,7 +63,7 @@ describe('Admin spot test', () => {
     });
     it('Should generate a parking spot for auth user', done => {
       request
-        .post('/api/v1/parks/2/spot/new')
+        .post('/api/v1/parks/3/spot/new')
         .set('token', adminToken)
         .send(spot)
         .end((error, response) => {
@@ -95,7 +100,7 @@ describe('Admin spot test', () => {
     });
     it('Should not delete a parking spot that does not exist', done => {
       request
-        .delete('/api/v1/spot/11')
+        .delete('/api/v1/spot/50')
         .set('token', adminToken)
         .end((error, response) => {
           expect(response.statusCode).to.equal(404);
