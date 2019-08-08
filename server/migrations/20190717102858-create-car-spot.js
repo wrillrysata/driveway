@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       allocated_duration: {
-        type: Sequelize.TIME,
+        type: Sequelize.INTEGER,
       },
       occupant_id: {
         type: Sequelize.STRING,
