@@ -40,21 +40,19 @@ export default class carSpotController {
           });
         }
         if (foundSpot && foundSpot.status == 'Free') {
-
-          foundSpot.update({ status: 'occupied' }).then(updatedSpot => {
+          foundSpot.update({ status: 'Occupied' }).then(updatedSpot => {
             db.CarSpot.create({
               entry_timestamp: moment.utc(),
               allocated_duration,
               occupant_id,
               spotId: req.params.spotId,
-            }).then(updatedSpot =>{
-             return res.status(200).json({
+            }).then(updatedSpot =>
+              res.status(200).json({
                 message: 'Successfully assigned car to spot',
               })
-            }
             );
           });
-        } else if (foundSpot.status == 'occupied') {
+        } else if (foundSpot.status == 'Occupied') {
           res.status(400).json({
             errors: {
               status: '400',
@@ -98,8 +96,7 @@ export default class carSpotController {
             foundSpot.update({ status: 'Free' });
             return res.status(201).json({
               message: 'Successfully removed car from spot',
-            })
-
+            });
           });
         }
       })

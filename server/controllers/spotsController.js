@@ -6,6 +6,7 @@ const errors = {
   title: 'Not Found',
   detail: 'A spot with that Id is not found',
 };
+
 /**
  *@class spotsController
  *
@@ -26,12 +27,12 @@ export default class spotsController {
    */
 
   static generateSpot(req, res) {
-    const randomString = randomstring.generate({
+    const spotname = `Spot${randomstring.generate({
       length: 3,
       charset: 'alphabetic',
       capitalization: 'uppercase',
-    });
-    const spotname = `Spot ${randomString}`;
+    })}`;
+
     const { status } = req.body;
     db.Spot.findOne({
       where: {
@@ -41,6 +42,7 @@ export default class spotsController {
     })
       .then(foundSpot => {
         if (foundSpot) {
+          console.log(foundSpot.spotname);
           return res.status(409).json({
             errors: {
               title: 'Conflict',

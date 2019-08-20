@@ -17,7 +17,7 @@ const spot = {
   status: 'Free',
 };
 describe('Admin carSpots test', () => {
-describe('# Assign a carSpot', () => {
+  describe('# Assign a carSpot', () => {
     before(done => {
       request
         .post(signinUrl)
@@ -29,28 +29,30 @@ describe('# Assign a carSpot', () => {
         });
     });
     it('Should add park', done => {
-        request
-          .post('/api/v1/parks')
-          .set('token', adminToken)
-          .send({
-            parkname: 'Test CarSpots',
+      request
+        .post('/api/v1/parks')
+        .set('token', adminToken)
+        .send({
+          parkname: 'Test CarSpots',
           initialSpots: 2,
-          status: 'active'})
-          .end((error, response) => {
-            expect(response.statusCode).to.equal(201);
-            expect(response.body).to.be.an('object');
-            done();
-          });
-      });
-     
-      it('Should add a spot to park', done =>{
-        request.post('/api/v1/parks/1/spot/new')
+          status: 'active',
+        })
+        .end((error, response) => {
+          expect(response.statusCode).to.equal(201);
+          expect(response.body).to.be.an('object');
+          done();
+        });
+    });
+
+    it('Should add a spot to park', done => {
+      request
+        .post('/api/v1/parks/1/spot/new')
         .set('token', adminToken)
         .send(spot)
         .end((error, response) => {
           expect(response.statusCode).to.equal(201);
           done();
-      })
+        });
     });
     it('Should not assign a carSpot for non auth user', done => {
       request
@@ -101,7 +103,7 @@ describe('# Assign a carSpot', () => {
           expect(response.statusCode).to.equal(200);
           expect(response.body).to.be.an('object');
           expect(response.body.message).to.equal(
-           'Successfully assigned car to spot'
+            'Successfully assigned car to spot'
           );
           done();
         });
@@ -152,4 +154,4 @@ describe('# Assign a carSpot', () => {
         });
     });
   });
-})
+});
