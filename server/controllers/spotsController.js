@@ -42,7 +42,6 @@ export default class spotsController {
     })
       .then(foundSpot => {
         if (foundSpot) {
-          console.log(foundSpot.spotname);
           return res.status(409).json({
             errors: {
               title: 'Conflict',
