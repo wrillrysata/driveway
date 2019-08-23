@@ -68,11 +68,12 @@ export default class carSpotController {
             detail: 'Internal server error',
           },
         });
+        console.log(Error)
       });
   }
 
   static removeCarSpot(req, res) {
-    const { spotId } = req.params;
+    const { spotId } = req.params; //Id of carSpot
 
     db.CarSpot.findOne({
       where: {
@@ -107,6 +108,7 @@ export default class carSpotController {
             detail: 'Internal server error',
           },
         });
+        console.log(Error)
       });
   }
 }
