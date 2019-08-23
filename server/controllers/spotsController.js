@@ -56,6 +56,7 @@ export default class spotsController {
             parkId: req.params.parkId,
             status,
           }).then(newSpot => {
+            console.log(newSpot)
             res.status(201).json({
               data: {
                 message: 'Spot created successfully',
@@ -71,6 +72,7 @@ export default class spotsController {
             detail: 'Internal server error',
           },
         });
+        console.log(Error);
       });
   }
 
@@ -121,6 +123,7 @@ export default class spotsController {
             detail: 'Internal server error',
           },
         });
+        console.log(Error)
       });
   }
 }
