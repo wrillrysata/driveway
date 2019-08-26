@@ -72,7 +72,7 @@ export default class carSpotController {
   }
 
   static removeCarSpot(req, res) {
-    const { spotId } = req.params;
+    const { spotId } = req.params; // Refers to CarSpot ID
 
     db.CarSpot.findOne({
       where: {
@@ -86,7 +86,7 @@ export default class carSpotController {
           });
         }
         if (foundCarSpot) {
-          const { spotId } = foundCarSpot;
+          const { spotId } = foundCarSpot; // Grab the Spot ID from DB
           foundCarSpot.update({ exit_timestamp: moment.utc() });
           db.Spot.findOne({
             where: {
