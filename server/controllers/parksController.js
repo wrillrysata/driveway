@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import db from '../models/index';
+import generateSpot from '../utils/generateSpot';
 
 const errors = {
   title: 'Not Found',
@@ -49,10 +50,10 @@ export default class parksController {
             initialSpots,
             status,
           }).then(newPark => {
-            // Iterate and add the corresponding number of spots to park in database
             for (i = 1; i <= initialSpots; i++) {
+              const spotname = generateSpot();
               db.Spot.create({
-                spotname: `Spot ${i}`,
+                spotname,
                 userId: req.userId,
                 parkId: newPark.id,
                 status: 'Free',

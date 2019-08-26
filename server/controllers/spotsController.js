@@ -26,7 +26,7 @@ export default class spotsController {
    * @returns {Object} Class instance.
    */
 
-  static generateSpot(req, res) {
+  static generateSpot(req, res, initialSpots) {
     const spotname = `Spot${randomstring.generate({
       length: 3,
       charset: 'alphabetic',
