@@ -18,7 +18,7 @@ A simple Node JS API that allows users (admin) to manage parking spaces.
 ### To get started
 
 1. Install Node.js
-2. [Install Yarn](https://yarnpkg.com/lang/en/docs/install/#mac-stable)package manager
+2. [Install Yarn](https://yarnpkg.com/lang/en/docs/install/#mac-stable) package manager
 
 3. Clone the repo by running `git clone https://github.com/Ijebusoma/driveway.git`
 
