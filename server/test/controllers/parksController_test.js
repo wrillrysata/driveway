@@ -133,7 +133,7 @@ describe('Test Park Controller', () => {
     });
     it('Should not edit details of a park whose id is not a number', done => {
       request
-        .put('/api/v1/parks/:parkId')
+        .put('/api/v1/parks/:id')
         .set('token', adminToken)
         .send({
           parkname: 'The Yard',
@@ -142,8 +142,8 @@ describe('Test Park Controller', () => {
         .end((error, response) => {
           expect(response.statusCode).to.equal(400);
           expect(response.body).to.be.an('object');
-          expect(response.body.errors.parkId).to.equal(
-            'Park Id must be a number'
+          expect(response.body.errors.id).to.equal(
+            'Id must be a number'
           );
           done();
         });
@@ -231,13 +231,13 @@ describe('Test Park Controller', () => {
     });
     it('Should not get a park whose id is not a number', done => {
       request
-        .get('/api/v1/parks/:parkId')
+        .get('/api/v1/parks/:id')
         .set('token', adminToken)
         .end((error, response) => {
           expect(response.statusCode).to.equal(400);
           expect(response.body).to.be.an('object');
-          expect(response.body.errors.parkId).to.equal(
-            'Park Id must be a number'
+          expect(response.body.errors.id).to.equal(
+            'Id must be a number'
           );
 
           done();

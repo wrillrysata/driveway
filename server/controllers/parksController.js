@@ -93,7 +93,7 @@ export default class parksController {
 
     db.Park.findOne({
       where: {
-        id: req.params.parkId,
+        id: req.params.id,
         userId: req.userId,
       },
     })
@@ -144,7 +144,7 @@ export default class parksController {
   static deletePark(req, res) {
     db.Park.findOne({
       where: {
-        id: req.params.parkId,
+        id: req.params.id,
         userId: req.userId,
       },
     })
@@ -152,7 +152,7 @@ export default class parksController {
         if (foundPark) {
           db.Park.destroy({
             where: {
-              id: req.params.parkId,
+              id: req.params.id,
               userId: req.userId,
             },
             cascade: true,
@@ -236,7 +236,7 @@ export default class parksController {
   static getAPark(req, res) {
     db.Park.findOne({
       where: {
-        id: req.params.parkId,
+        id: req.params.id,
       },
     })
       .then(foundPark => {

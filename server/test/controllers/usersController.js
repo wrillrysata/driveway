@@ -339,7 +339,7 @@ describe('# Get user Profile ', () => {
     request.get('/api/v1/users/number/profile').end((error, response) => {
       expect(response.statusCode).to.equal(400);
       expect(response.body).to.be.an('object');
-      expect(response.body.errors.userId).to.equal('Invalid user Id');
+      expect(response.body.errors.id).to.equal('Id must be a number');
       done();
     });
   });
