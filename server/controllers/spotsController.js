@@ -26,8 +26,8 @@ export default class spotsController {
    * @returns {Object} Class instance.
    */
 
-  static generateSpot(req, res, initialSpots) {
-    const spotname = `Spot${randomstring.generate({
+  static generateSpot(req, res) {
+    const spotname = `Spot ${randomstring.generate({
       length: 3,
       charset: 'alphabetic',
       capitalization: 'uppercase',
@@ -53,7 +53,7 @@ export default class spotsController {
           db.Spot.create({
             spotname,
             userId: req.userId,
-            parkId: req.params.parkId,
+            parkId: req.params.id,
             status,
           }).then(newSpot => {
             res.status(201).json({
@@ -88,7 +88,7 @@ export default class spotsController {
   static deleteSpot(req, res) {
     db.Spot.findOne({
       where: {
-        id: req.params.spotId,
+        id: req.params.id,
         userId: req.userId,
       },
     })
@@ -96,7 +96,7 @@ export default class spotsController {
         if (foundSpot) {
           db.Spot.destroy({
             where: {
-              id: req.params.spotId,
+              id: req.params.id,
               userId: req.userId,
             },
             cascade: true,

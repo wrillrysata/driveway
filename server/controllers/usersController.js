@@ -153,7 +153,7 @@ export default class usersController {
     }
     db.User.findOne({
       where: {
-        id: req.params.userId,
+        id: req.params.id,
       },
     })
       .then(existingUser => {
@@ -173,7 +173,7 @@ export default class usersController {
                   'There was an error while authenticating you, please sign in again',
               });
             }
-            if (decoded.id === parseInt(req.params.userId, 10)) {
+            if (decoded.id === parseInt(req.params.id, 10)) {
               return res.status(200).json({
                 data: {
                   user: {
@@ -208,7 +208,7 @@ export default class usersController {
    * @description - Edits a users' profile
    * @static
    *
-   * @param {Object} req - HTTP Request.
+   * @param {Object} req - HTTP Request.pp
    * @param {Object} res - HTTP Response.
    *
    * @memberof usersController

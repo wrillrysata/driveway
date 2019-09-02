@@ -5,9 +5,7 @@ import authorization from '../middleware/authorization';
 import parkValidation from '../middleware/parkValidation';
 import carSpotValidation from '../middleware/carSpotValidation';
 import {
-  verifyParkId,
-  verifySpotId,
-  verifyCarSpotId,
+  verifyId,
 } from '../middleware/idValidation';
 
 /**
@@ -25,32 +23,32 @@ export default function adminRoutes(app) {
     .get(authorization, park.getParks);
 
   app
-    .route('/api/v1/parks/:parkId')
-    .put(authorization, verifyParkId, park.editPark)
-    .delete(authorization, verifyParkId, park.deletePark)
-    .get(authorization, verifyParkId, park.getAPark);
+    .route('/api/v1/parks/:id')
+    .put(authorization, verifyId, park.editPark)
+    .delete(authorization, verifyId, park.deletePark)
+    .get(authorization, verifyId, park.getAPark);
 
   // generate a spot
   app
-    .route('/api/v1/parks/:parkId/spot/new')
+    .route('/api/v1/parks/:id/spot/new')
     .post(authorization, spot.generateSpot);
 
   app
-    .route('/api/v1/spot/:spotId')
+    .route('/api/v1/spot/:id')
     // delete a spot
-    .delete(authorization, verifySpotId, spot.deleteSpot);
+    .delete(authorization, verifyId, spot.deleteSpot);
 
   // assign car to spot
   app
-    .route('/api/v1/spot/:spotId/car-spot')
+    .route('/api/v1/spot/:id/car-spot')
     .post(
       authorization,
-      verifySpotId,
+      verifyId,
       carSpotValidation,
       carSpot.assignCarSpot
     );
   // remove car from spot
   app
-    .route('/api/v1/car-spot/:spotId')
-    .delete(authorization, verifySpotId, carSpot.removeCarSpot);
+    .route('/api/v1/car-spot/:id')
+    .delete(authorization, verifyId, carSpot.removeCarSpot);
 }

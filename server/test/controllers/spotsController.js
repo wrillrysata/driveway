@@ -87,13 +87,13 @@ describe('Admin spot test', () => {
     });
     it('Should not delete a parking spot if id is not a number', done => {
       request
-        .delete('/api/v1/spot/:spotId')
+        .delete('/api/v1/spot/:id')
         .set('token', adminToken)
         .end((error, response) => {
           expect(response.statusCode).to.equal(400);
           expect(response.body).to.be.an('object');
-          expect(response.body.errors.spotId).to.equal(
-            'Spot Id must be a number'
+          expect(response.body.errors.id).to.equal(
+            'Id must be a number'
           );
           done();
         });

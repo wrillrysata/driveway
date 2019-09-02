@@ -30,7 +30,7 @@ export default class carSpotController {
     const { allocated_duration, occupant_id } = req.body;
     db.Spot.findOne({
       where: {
-        id: req.params.spotId,
+        id: req.params.id,
       },
     })
       .then(foundSpot => {
@@ -45,7 +45,7 @@ export default class carSpotController {
               entry_timestamp: moment.utc(),
               allocated_duration,
               occupant_id,
-              spotId: req.params.spotId,
+              spotId: req.params.id,
             }).then(updatedSpot =>
               res.status(200).json({
                 message: 'Successfully assigned car to spot',
@@ -72,11 +72,11 @@ export default class carSpotController {
   }
 
   static removeCarSpot(req, res) {
-    const { spotId } = req.params; // Refers to CarSpot ID
+    const { id } = req.params; // Refers to CarSpot ID
 
     db.CarSpot.findOne({
       where: {
-        id: spotId,
+        id
       },
     })
       .then(foundCarSpot => {
