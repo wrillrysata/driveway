@@ -59,7 +59,7 @@
     "pg-hstore": "^2.3.2",
     "randomstring": "^1.1.5",
     "request": "^2.88.0",
-    "sequelize": "^5.8.5",
+    "sequelize": "^5.15.1",
     "validator": "^10.11.0"
   }
 }
